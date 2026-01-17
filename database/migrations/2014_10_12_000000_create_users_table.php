@@ -17,13 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('is_admin')->default(false);
-            $table->uuid('tenant_id')->nullable();
-            $table->boolean('sinodal');
+            $table->enum('profile_type', ['admin', 'missionary', 'volunteer'])->default('volunteer');
             $table->rememberToken();
             $table->timestamps();
-
-            $table->index('tenant_id');
         });
     }
 

@@ -1,0 +1,95 @@
+Documento de Especificação de Requisitos de Software (SRS)
+Projeto: Conexão Missionária
+1.Visão Geral e EscopoO Conexão Missionária é uma plataforma web de matchmaking religioso destinada a conectar Campos Missionários (que necessitam de apoio para execução de atividades) com Equipes de Voluntários (jovens dispostos a realizar viagens missionárias).
+O sistema gerencia todo o fluxo desde o cadastro de perfis, publicação de temporadas/disponibilidades, busca filtrada, solicitação de conexão, até a gestão administrativa da viagem após o "match".
+2. Arquitetura e Tecnologias
+2.1 Stack Tecnológico
+Linguagem:
+- PHP 8.2+Framework Backend: Laravel 10 ou superior.
+- Frontend/Fullstack: Laravel Livewire 3 sem alpine
+- Interface (UI): Bootstrap 5 (SASS).
+- Banco de Dados: MySQL 8.0.
+
+2.2 Padrão Arquitetural: Clean Architecture (Abordagem Enxuta/Laravel Way)
+O projeto evitará complexidade acidental. 
+Não serão utilizados Repository Patterns complexos ou Binders abstratos, visto que o ORM (Eloquent) não será substituído.
+
+Camadas do Sistema:Domain/Entities (Models): Representam as tabelas do banco e contém relacionamentos e acessors simples. (Ex: User, MissionaryField, VolunteerTeam).
+Application (Use Cases): Classes de ação única que encapsulam a regra de negócio pura.
+O Controller/Livewire apenas invoca o UseCase.
+Exemplo: App\UseCases\Missionary\CreateFieldUseCase.
+Interface Adapters (Livewire Components): Recebem o input do usuário, validam (Rules) e chamam o UseCase.
+Infrastructure: Implementações de envio de e-mail, armazenamento de arquivos (Storage) e notificações.
+
+3. Atores do Sistema
+Ator - Descrição
+Missionário - Responsável pelo campo. Cria oportunidades e busca equipes.
+Voluntário (Líder) - Responsável pela equipe. Gerencia membros, documentos e busca campos.
+Administrador - Gestor da plataforma. Visualiza dados e recebe alertas de novos cadastros.
+
+4. Requisitos Funcionais e Use Cases
+4.1 Módulo: Autenticação e Gestão de Usuários
+UC001 - Manter Usuário: O sistema deve permitir cadastro identificando o perfil (Missionário, Voluntário, Admin).
+UC002 - Login Seguro: Autenticação via e-mail e senha (encriptada via Bcrypt).Regra de Segurança: Senhas nunca devem ser trafegadas ou salvas em texto plano.
+4.2 Módulo: Missionário
+UC003 - Cadastrar Campo Missionário:Campos: Nome, Email, Telefone, Localização, Tipo de atividades (tag/enum), Imagens (galeria), Descrição, Horário de atendimento, Estrutura do local.
+UC004 - Cadastrar Temporada:Campos: Data Início (nullable), Data Fim (nullable), Vagas (nullable), Atividades Desejadas (nullable).
+UC005 - Buscar Equipes:Visualização em lista.Filtros: Especialidades, Localização.
+UC006 - Gerenciar Conexões (Missionário):Enviar pedido para uma equipe.Visualizar status (Enviado, Recebido, Aceito, Rejeitado, Cancelado, Concluído).Aceitar conexão de uma equipe.
+4.3 Módulo: Voluntário (Líder da Equipe)
+UC007 - Cadastrar Equipe:Campos: Igreja, Oficial Responsável, Atividades que realizam, Período disponível (Início/Fim nullable).
+UC008 - Gerenciar Membros:Campos: Nome, Telefone, Igreja, Pastor, Nr Pastor, Cargo, Foto, Descrição/Especialidade.Status do Membro: Pendente, Pago, Rejeitado.Uploads (PDF/Img): Carta de autorização, Antecedentes criminais, Termos e Condições assinado, Aceite LGPD.
+UC009 - Buscar Campos:Visualização em lista.Filtros: Especialidades, Localização.
+UC010 - Gerenciar Conexões (Voluntário):Enviar pedido para um campo.Visualizar status.Aceitar conexão de um campo.
+UC011 - Gestão da Viagem:área para controle de gastos/orçamento.Visualizar "Passo a passo da viagem" e "Edital" (Documentos estáticos do sistema).
+4.4 Módulo: Administrador
+UC012 - Visualizar Entidades:Listar Campos Missionários (com filtros).Listar Equipes (com filtros).Ver detalhes de membros (auditoria de documentos).
+
+5. Regras de Negócio (RN)
+RN01 - Fluxo de Match e Visibilidade
+Ocultação Automática:Se um Missionário aceita uma equipe -> O Campo Missionário (ou a Temporada específica) deixa de ser exibido na busca pública.
+Se uma Equipe aceita um campo -> A Equipe deixa de ser exibida na busca pública.
+Status do Pedido: O status deve transitar de forma lígica (ex: não pode "Aceitar" um pedido "Cancelado").
+RN02 - Notificações ao Administrador (E-mail)O sistema deve enviar um e-mail automático (Mail::to($admin)) sempre que:Um novo Campo Missionário finalizar o cadastro.
+Uma nova Equipe finalizar o cadastro.
+RN03 - Notificação de Conexão (WhatsApp)
+O sistema deve gerar um gatilho de notificação ao alterar o status da conexão para "Aceito".
+Caso Missionário aceite: Enviar mensagem (ou link API WhatsApp) para a Equipe com o contato do Missionário.
+Caso Equipe aceite: Enviar mensagem (ou link API WhatsApp) para o Campo com o contato do Líder da Equipe.
+RN04 - Proteção de Dados (LGPD)
+Documentos como Antecedentes Criminais e Cartas de Autorização não devem estar em pastas públicas (public/). Devem ser salvos em diretário protegido (storage/app/private) e servidos via Controller com verificação de permissão (apenas o Líder, o Dono do Campo conectado e o Admin podem ver).
+
+6. Modelo de Dados (Esboço das Tabelas)
+- users
+id, name, email, password, profile_type (enum: admin, missionary, volunteer), created_at.
+- missionary_fields
+id, user_id (FK), name, phone, location_data (text/json), description, structure, office_hours, is_active.
+- volunteer_teams
+id, user_id (FK), church_name, responsible_officer, activities (json), available_start, available_end, is_available.
+- team_members
+id, team_id (FK), name, phone, pastor_name, pastor_phone, role, status (enum), file_paths (json: guarda caminhos dos PDFs seguros).
+- connections
+id, missionary_field_id, volunteer_team_id, status (enum: sent, accepted, rejected...), initiator_type (quem pediu).
+
+7. Requisitos Não-Funcionais
+Interface Responsiva: O layout deve se adaptar fluidamente a smartphones e desktops (Bootstrap Grid).
+Segurança: Implementação de CSRF Protection, Sanitização de Inputs e validação de MIME Types nos uploads de arquivos.
+Performance: Listagens de busca devem possuir paginação (Lazy Loading ou Pagination do Livewire) para não travar o navegador com muitos registros.
+
+8. Estrutura de Pastas Sugerida (Laravel)
+
+app/
+??? Models/              # Entidades Eloquent
+??? UseCases/            # Regras de Negócio
+?   ??? Missionary/
+?   ?   ??? CreateField.php
+?   ?   ??? AcceptConnection.php
+?   ??? Volunteer/
+?   ?   ??? CreateTeam.php
+?   ?   ??? ManageMembers.php
+?   ??? Shared/
+??? Livewire/            # Controllers de Interface
+?   ??? Missionary/
+?   ??? Volunteer/
+?   ??? Admin/
+??? Services/            # Integrações (WhatsApp/Mail)

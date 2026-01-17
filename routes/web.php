@@ -1,18 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Livewire\Atas;
-use App\Livewire\CommissionManagement;
-use App\Livewire\DelegadoAtas;
-use App\Livewire\DelegadoComissoes;
-use App\Livewire\DelegadoDocumentos;
-use App\Livewire\DelegadoHome;
-use App\Livewire\DelegateLogin;
-use App\Livewire\DelegateManagement;
-use App\Livewire\DocumentManagement;
-use App\Livewire\PresenceManagement;
-use App\Livewire\SessionManagement;
-use App\Livewire\SyncUnidades;
+use App\Http\Controllers\SecureDocumentController;
+use App\Livewire\Missionary\Dashboard as MissionaryDashboard;
+use App\Livewire\Missionary\FieldForm;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,33 +17,45 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('site');
 })->name('home');
 
-Route::get('/delegados-login', DelegateLogin::class)->name('login.delegados');
-Route::middleware(['auth:delegados'])
-    ->prefix('area-delegado')
-    ->name('area-delegado.')
-    ->group(function () {
-        Route::get('/', DelegadoHome::class)->name('home');
-        Route::get('/documentos', DelegadoDocumentos::class)->name('documentos');
-        Route::get('/comissoes', DelegadoComissoes::class)->name('comissoes');
-        Route::get('/atas', DelegadoAtas::class)->name('atas');
-    }
-);
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/unidades', SyncUnidades::class)->name('unidades.index');
-    Route::get('/delegados', DelegateManagement::class)->name('delegados.index');
-    Route::get('/sessoes', SessionManagement::class)->name('sessoes.index');
-    Route::get('/sessoes/{sessaoId}/presencas', PresenceManagement::class)->name('sessoes.presenca');
-    Route::get('/comissoes', CommissionManagement::class)->name('comissoes.index');
-    Route::get('/documentos', DocumentManagement::class)->name('documentos.index');
-    Route::get('/atas', Atas::class)->name('atas.index');
-});
-
+// Rotas públicas de autenticação
 require __DIR__.'/auth.php';
+
+// Rotas autenticadas
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->isMissionary()) {
+            return redirect()->route('missionary.dashboard');
+        } elseif ($user->isVolunteer()) {
+            return redirect()->route('volunteer.dashboard');
+        }
+        return redirect()->route('home');
+    })->name('dashboard');
+
+    // Rotas Missionário
+    Route::middleware(['profile:missionary'])->prefix('missionary')->name('missionary.')->group(function () {
+        Route::get('/', MissionaryDashboard::class)->name('dashboard');
+        Route::get('/field', FieldForm::class)->name('field.create');
+        Route::get('/field/{field}', FieldForm::class)->name('field.edit');
+    });
+
+    // Rotas Voluntário
+    Route::middleware(['profile:volunteer'])->prefix('volunteer')->name('volunteer.')->group(function () {
+        // Adicionar rotas do voluntário aqui
+    });
+
+    // Rotas Admin
+    Route::middleware(['profile:admin'])->prefix('admin')->name('admin.')->group(function () {
+        // Adicionar rotas do admin aqui
+    });
+
+    // Documentos seguros
+    Route::get('/documents/{memberId}/{documentKey}', [SecureDocumentController::class, 'download'])
+        ->name('documents.download')
+        ->middleware('auth');
+});

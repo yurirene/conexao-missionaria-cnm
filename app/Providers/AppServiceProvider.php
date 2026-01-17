@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Registrar Observers para notificações
+        \App\Models\MissionaryField::observe(\App\Observers\MissionaryFieldObserver::class);
+        \App\Models\VolunteerTeam::observe(\App\Observers\VolunteerTeamObserver::class);
     }
 }
