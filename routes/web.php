@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SecureDocumentController;
 use App\Livewire\Missionary\Dashboard as MissionaryDashboard;
 use App\Livewire\Missionary\FieldForm;
@@ -33,6 +34,11 @@ require __DIR__.'/auth.php';
 
 // Rotas autenticadas
 Route::middleware(['auth'])->group(function () {
+    // Perfil do usuário
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::get('/dashboard', function () {
         $user = auth()->user();
         

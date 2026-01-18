@@ -33,6 +33,15 @@ class MissionaryField extends Model
         ];
     }
 
+    /**
+     * Garante que activity_types (JSON) seja sempre gravado como string no banco.
+     * Evita "Array to string conversion" em alguns ambientes MySQL.
+     */
+    protected function setActivityTypesAttribute($value): void
+    {
+        $this->attributes['activity_types'] = \is_array($value) ? json_encode($value) : $value;
+    }
+
     // Relacionamentos
     public function user(): BelongsTo
     {
