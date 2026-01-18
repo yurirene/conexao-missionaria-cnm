@@ -18,7 +18,21 @@ class Login extends Component
     {
         // Redireciona se o usuário já estiver logado
         if (Auth::check()) {
-            return redirect()->intended(config('fortify.home'));
+            $user = Auth::user();
+            if ($user->isAdmin()) {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->isMissionary()) {
+                if (!$user->missionaryField) {
+                    return redirect()->route('missionary.field.create');
+                }
+                return redirect()->route('missionary.dashboard');
+            } elseif ($user->isVolunteer()) {
+                if (!$user->volunteerTeam) {
+                    return redirect()->route('volunteer.team.create');
+                }
+                return redirect()->route('volunteer.dashboard');
+            }
+            return redirect()->route('dashboard');
         }
     }
 
@@ -35,7 +49,26 @@ class Login extends Component
             ]);
         }
 
-        return app(LoginResponse::class);
+        $request = request();
+        $request->session()->regenerate();
+
+        // Redirecionar para dashboard específico do perfil
+        $user = Auth::user();
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->isMissionary()) {
+            if (!$user->missionaryField) {
+                return redirect()->route('missionary.field.create');
+            }
+            return redirect()->route('missionary.dashboard');
+        } elseif ($user->isVolunteer()) {
+            if (!$user->volunteerTeam) {
+                return redirect()->route('volunteer.team.create');
+            }
+            return redirect()->route('volunteer.dashboard');
+        }
+
+        return redirect()->route('dashboard');
     }
 
     #[Layout('layouts.guest')]

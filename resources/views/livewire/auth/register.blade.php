@@ -1,5 +1,5 @@
 <form wire:submit.prevent="register">
-    <h5 class="card-title text-center mb-3">Registro</h5>
+    <h5 class="card-title text-center mb-3">Criar Conta</h5>
 
     <div class="mb-3">
         <label for="name" class="form-label">Nome</label>
@@ -14,6 +14,16 @@
     </div>
 
     <div class="mb-3">
+        <label for="profile_type" class="form-label">Tipo de Perfil</label>
+        <select wire:model.defer="profile_type" class="form-select @error('profile_type') is-invalid @enderror" id="profile_type" name="profile_type" required>
+            <option value="volunteer">Voluntário (Líder de Equipe)</option>
+            <option value="missionary">Missionário (Responsável por Campo)</option>
+        </select>
+        @error('profile_type') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <small class="form-text text-muted">Selecione o tipo de perfil que melhor descreve você</small>
+    </div>
+
+    <div class="mb-3">
         <label for="password" class="form-label">Senha</label>
         <input wire:model.defer="password" type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required autocomplete="new-password">
         @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -23,12 +33,6 @@
         <label for="password_confirmation" class="form-label">Confirmar Senha</label>
         <input wire:model.defer="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" required autocomplete="new-password">
         @error('password_confirmation') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="mb-3">
-        <label for="tenant_id" class="form-label">Token</label>
-        <input wire:model.defer="tenant_id" type="text" class="form-control @error('tenant_id') is-invalid @enderror" id="tenant_id" name="tenant_id" required autocomplete="tenant_id">
-        @error('tenant_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
     <div class="d-grid gap-2">

@@ -29,14 +29,14 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'profile_type' => ['required', 'in:admin,missionary,volunteer'],
         ])->validate();
 
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'sinodal' => $input['sinodal'],
-            'tenant_id' => $input['tenant_id'],
+            'profile_type' => $input['profile_type'] ?? 'volunteer',
         ]);
     }
 }

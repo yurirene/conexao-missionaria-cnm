@@ -27,13 +27,10 @@ class TeamMember extends Model
         'file_paths',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'status' => MemberStatus::class,
-            'file_paths' => 'array',
-        ];
-    }
+    protected $casts = [
+        'status' => MemberStatus::class,
+        'file_paths' => 'array',
+    ];
 
     // Relacionamentos
     public function team(): BelongsTo

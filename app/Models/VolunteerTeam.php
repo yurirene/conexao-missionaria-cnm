@@ -16,21 +16,19 @@ class VolunteerTeam extends Model
         'user_id',
         'church_name',
         'responsible_officer',
+        'responsible_officer_phone',
         'activities',
         'available_start',
         'available_end',
         'is_available',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'activities' => 'array',
-            'available_start' => 'date',
-            'available_end' => 'date',
-            'is_available' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'activities' => 'array',
+        'available_start' => 'date',
+        'available_end' => 'date',
+        'is_available' => 'boolean',
+    ];
 
     // Relacionamentos
     public function user(): BelongsTo

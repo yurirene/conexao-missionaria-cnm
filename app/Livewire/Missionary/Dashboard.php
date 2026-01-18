@@ -13,6 +13,11 @@ class Dashboard extends Component
     public function mount()
     {
         $this->field = auth()->user()->missionaryField;
+        
+        // Se não tiver campo cadastrado, redirecionar para cadastro
+        if (!$this->field) {
+            return redirect()->route('missionary.field.create');
+        }
     }
 
     #[Layout('layouts.app')]

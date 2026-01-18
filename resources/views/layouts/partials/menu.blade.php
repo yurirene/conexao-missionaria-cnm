@@ -1,73 +1,54 @@
-<nav class="main-navbar">
-    <div class="container">
-        <ul>
+<ul class="menu">
+    <li class="sidebar-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+        <a href="{{ route('dashboard') }}" class="sidebar-link">
+            <i class="bi bi-grid-fill"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
 
-
-
-            <li
-                class="menu-item  ">
-                <a href="{{ route('dashboard') }}" class='menu-link'>
-                    <span><i class="bi bi-grid-fill"></i> Dashboard</span>
-                </a>
-            </li>
-            <li
-                class="menu-item  ">
-                <a href="{{ route('unidades.index') }}" class='menu-link'>
-                    <span><i class="bi bi-grid-fill"></i> Unidades</span>
-                </a>
-            </li>
-            <li
-                class="menu-item  ">
-                <a href="{{ route('delegados.index') }}" class='menu-link'>
-                    <span><i class="bi bi-people-fill"></i> Delegados</span>
-                </a>
-            </li>
-
-            <li
-                class="menu-item  ">
-                <a href="{{ route('sessoes.index') }}" class='menu-link'>
-                    <span><i class="bi bi-calendar-date-fill"></i> Sessões</span>
-                </a>
-            </li>
-            <li
-                class="menu-item  ">
-                <a href="{{ route('documentos.index') }}" class='menu-link'>
-                    <span><i class="bi bi-file-earmark-text-fill"></i> Documentos</span>
-                </a>
-            </li>
-            <li
-                class="menu-item  ">
-                <a href="{{ route('comissoes.index') }}" class='menu-link'>
-                    <span><i class="bi bi-people-fill"></i> Comissões</span>
-                </a>
-            </li>
-            <li
-                class="menu-item  ">
-                <a href="{{ route('atas.index') }}" class='menu-link'>
-                    <span><i class="bi bi-file-earmark-text-fill"></i> Atas</span>
-                </a>
-            </li>
-
-            <!-- <li
-                class="menu-item  has-sub">
-                <a href="{{ route('dashboard') }}" class='menu-link'>
-                    <span><i class="bi bi-stack"></i> Components</span>
-                </a>
-                <div
-                    class="submenu ">
-                    <div class="submenu-group-wrapper">
-                        <ul class="submenu-group">
-                            <li
-                                class="submenu-item  ">
-                                <a href="component-alert.html"
-                                    class='submenu-link'>Alert</a>
-
-
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li> -->
-        </ul>
-    </div>
-</nav>
+    @if(auth()->user()->isMissionary())
+        <li class="sidebar-item {{ request()->routeIs('missionary.*') ? 'active' : '' }}">
+            <a href="{{ route('missionary.dashboard') }}" class="sidebar-link">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Meu Campo</span>
+            </a>
+        </li>
+        <li class="sidebar-item {{ request()->routeIs('missionary.field.*') ? 'active' : '' }}">
+            <a href="{{ route('missionary.field.create') }}" class="sidebar-link">
+                <i class="bi bi-gear-fill"></i>
+                <span>Configurações</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-people-fill"></i>
+                <span>Conexões</span>
+            </a>
+        </li>
+    @elseif(auth()->user()->isVolunteer())
+        <li class="sidebar-item {{ request()->routeIs('volunteer.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('volunteer.dashboard') }}" class="sidebar-link">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Minha Equipe</span>
+            </a>
+        </li>
+        <li class="sidebar-item {{ request()->routeIs('volunteer.team.*') ? 'active' : '' }}">
+            <a href="{{ route('volunteer.team.create') }}" class="sidebar-link">
+                <i class="bi bi-gear-fill"></i>
+                <span>Configurações</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-search"></i>
+                <span>Buscar Campos</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-link-45deg"></i>
+                <span>Conexões</span>
+            </a>
+        </li>
+    @endif
+</ul>

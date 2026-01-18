@@ -47,16 +47,16 @@ class User extends Authenticatable
     // Métodos auxiliares
     public function isAdmin(): bool
     {
-        return $this->profile_type === ProfileType::ADMIN;
+        return $this->profile_type === ProfileType::ADMIN->value;
     }
 
     public function isMissionary(): bool
     {
-        return $this->profile_type === ProfileType::MISSIONARY;
+        return $this->profile_type === ProfileType::MISSIONARY->value;
     }
 
     public function isVolunteer(): bool
     {
-        return $this->profile_type === ProfileType::VOLUNTEER;
+        return $this->profile_type === ProfileType::VOLUNTEER->value;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Auth;
 
-use App\Services\ExternalApiService;
+use App\Enums\ProfileType;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -15,7 +15,7 @@ class Register extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
-    public string $tenant_id = '';
+    public string $profile_type = 'volunteer';
 
     public function register()
     {
@@ -25,7 +25,7 @@ class Register extends Component
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'tenant_id' => ['required', 'uuid', 'unique:users'],
+            'profile_type' => ['required', 'in:missionary,volunteer'],
         ]);
 
         $key = 'register_attempts_' . request()->ip();
@@ -41,28 +41,22 @@ class Register extends Component
 
         cache()->put($key, $attempts + 1, $decay);
 
-        $apiService = new ExternalApiService();
-        $validToken = $apiService->validarToken($this->tenant_id);
-        if (!$validToken) {
-            throw ValidationException::withMessages([
-                'tenant_id' => 'Token inválido',
-            ]);
-        }
-
-        $sinodal = $apiService->isSinodal($this->tenant_id);
-
         $user = $creator->create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
             'password_confirmation' => $this->password_confirmation,
-            'tenant_id' => $this->tenant_id,
-            'sinodal' => $sinodal,
+            'profile_type' => $this->profile_type,
         ]);
 
         Auth::login($user);
 
-        return redirect()->intended(config('fortify.home'));
+        // Redirecionar para cadastro específico do perfil
+        if ($this->profile_type === 'missionary') {
+            return redirect()->route('missionary.field.create');
+        } else {
+            return redirect()->route('volunteer.team.create');
+        }
     }
 
     #[Layout('layouts.guest')]

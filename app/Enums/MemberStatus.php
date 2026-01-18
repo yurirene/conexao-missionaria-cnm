@@ -16,4 +16,13 @@ enum MemberStatus: string
             self::REJECTED => 'Rejeitado',
         };
     }
+
+    public function badge(): string
+    {
+        return match($this) {
+            self::PENDING => 'badge bg-light-warning',
+            self::PAID => 'badge bg-light-success',
+            self::REJECTED => 'badge bg-light-danger',
+        };
+    }
 }

@@ -37,6 +37,11 @@ class SecureFileStorageService
         return Storage::disk('private')->delete($path);
     }
 
+    public function deleteDirectory(string $path): bool
+    {
+        return Storage::disk('private')->deleteDirectory($path);
+    }
+
     public function getPath(string $path): string
     {
         return $path;

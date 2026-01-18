@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Missionary;
 
+use App\Enums\ActivityType;
 use App\UseCases\Missionary\CreateFieldUseCase;
 use App\UseCases\Missionary\UpdateFieldUseCase;
 use App\Models\MissionaryField;
@@ -74,6 +75,11 @@ class FieldForm extends Component
         }
 
         return redirect()->route('missionary.dashboard');
+    }
+
+    public function getActivityTypesProperty()
+    {
+        return ActivityType::cases();
     }
 
     #[Layout('layouts.app')]

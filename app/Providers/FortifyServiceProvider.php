@@ -25,13 +25,17 @@ class FortifyServiceProvider extends ServiceProvider
     }
     public function boot()
     {
+        // Configurar views do Fortify para usar Livewire
+        // As rotas são gerenciadas em routes/auth.php usando Livewire diretamente
         Fortify::loginView(function () {
-            return view('auth.login'); // Ou Livewire::component('auth.login', \App\Http\Livewire\Auth\Login::class) se preferir instanciar diretamente
+            return view('auth.login');
         });
 
         Fortify::registerView(function () {
             return view('auth.register');
         });
+        
+        // Manter apenas a criação de usuários
         Fortify::createUsersUsing(CreateNewUser::class);
 
         // Você também pode definir as views para reset de senha, verificação de e-mail, etc.

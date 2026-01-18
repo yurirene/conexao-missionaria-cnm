@@ -20,12 +20,12 @@ class NotificationService
 
     public function notifyAdminNewTeam(User $teamOwner): void
     {
-        $admins = User::where('profile_type', 'admin')->get();
+        // $admins = User::where('profile_type', 'admin')->get();
 
-        foreach ($admins as $admin) {
-            Mail::to($admin->email)->send(
-                new \App\Mail\NewTeamRegistered($teamOwner)
-            );
-        }
+        // foreach ($admins as $admin) {
+        //     Mail::to($admin->email)->send(
+        //         new \App\Mail\NewTeamRegistered($teamOwner)
+        //     );
+        // }
     }
 }
