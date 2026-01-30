@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SecureDocumentController;
 use App\Livewire\Missionary\Dashboard as MissionaryDashboard;
 use App\Livewire\Missionary\FieldForm;
+use App\Livewire\Missionary\SeasonsIndex;
 use App\Livewire\Volunteer\Dashboard as VolunteerDashboard;
 use App\Livewire\Volunteer\TeamForm;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +26,7 @@ Route::get('/', function () {
 
 Route::get('/logout-teste', function () {
     Auth::logout();
-    
+
     return redirect()->route('home');
 });
 
@@ -41,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
         $user = auth()->user();
-        
+
         if ($user->isAdmin()) {
             return redirect()->route('admin.dashboard');
         } elseif ($user->isMissionary()) {
@@ -57,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
             }
             return redirect()->route('volunteer.dashboard');
         }
-        
+
         return redirect()->route('home');
     })->name('dashboard');
 
@@ -72,6 +73,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/field/{field}', FieldForm::class)
             ->middleware('profile:missionary')
             ->name('field.edit');
+        Route::get('/seasons', SeasonsIndex::class)
+            ->middleware('profile:missionary')
+            ->name('seasons.index');
     });
 
     // Rotas Voluntário - IMPORTANTE: ordem das rotas (mais específicas primeiro)

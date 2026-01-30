@@ -6,9 +6,9 @@
                     <i class="bi bi-church"></i>
                     {{ $team->church_name }}
                 </h3>
-                
+
                 <div class="mb-2">
-                    <strong>Status:</strong> 
+                    <strong>Status:</strong>
                     @if($team->is_available)
                         <span class="badge bg-light-success">Disponível</span>
                     @else
@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p class="card-text">
-                            <strong>Oficial Responsável:</strong> {{ $team->responsible_officer }} 
+                            <strong>Oficial Responsável:</strong> {{ $team->responsible_officer }}
                             @if($team->responsible_officer_phone)
                                 - {{ $team->responsible_officer_phone }}
                             @endif
@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-md-6">
                         @if($team->available_start && $team->available_end)
-                            <strong>Período Disponível:</strong> 
+                            <strong>Período Disponível:</strong>
                             {{ $team->available_start->format('d/m/Y') }} até {{ $team->available_end?->format('d/m/Y') }}
                         @endif
                     </div>
@@ -97,7 +97,7 @@
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <span class="badge {{ $member->status->badge() }} me-3">{{ $member->status->label() }}</span>
-                                            <button type="button" class="btn btn-link text-dark p-1" wire:click="openEditMemberModal('{{ $member->id }}')">
+                                            <button type="button" class="btn btn-link text-primary p-1" wire:click="openEditMemberModal('{{ $member->id }}')">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
                                             <button type="button" class="btn btn-link text-danger p-1"
@@ -184,19 +184,19 @@
     //             const form = document.createElement('form');
     //             form.method = 'POST';
     //             form.action = url;
-                
+
     //             const csrfToken = document.createElement('input');
     //             csrfToken.type = 'hidden';
     //             csrfToken.name = '_token';
     //             csrfToken.value = '{{ csrf_token() }}';
     //             form.appendChild(csrfToken);
-                
+
     //             const methodField = document.createElement('input');
     //             methodField.type = 'hidden';
     //             methodField.name = '_method';
     //             methodField.value = 'DELETE';
     //             form.appendChild(methodField);
-                
+
     //             document.body.appendChild(form);
     //             form.submit();
     //         }

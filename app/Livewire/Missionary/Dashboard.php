@@ -5,19 +5,24 @@ namespace App\Livewire\Missionary;
 use App\Models\MissionaryField;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 class Dashboard extends Component
 {
     public $field;
 
+    protected $listeners = [
+        'field-created' => 'loadField',
+    ];
+
     public function mount()
     {
-        $this->field = auth()->user()->missionaryField;
-        
-        // Se não tiver campo cadastrado, redirecionar para cadastro
-        if (!$this->field) {
-            return redirect()->route('missionary.field.create');
-        }
+        $this->loadField();
+    }
+
+    public function loadField()
+    {
+        $this->field = auth()->user()->fresh()->missionaryField;
     }
 
     #[Layout('layouts.app')]

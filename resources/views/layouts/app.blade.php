@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/assets/css/app-dark.css">
     <link rel="stylesheet" href="/assets/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" />
     @livewireStyles
 </head>
 
@@ -102,7 +103,10 @@
     <script src="/assets/js/app.js"></script>
     <script src="/assets/js/dark.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     @livewireScripts
+    @stack('js')
 </body>
 
 </html>

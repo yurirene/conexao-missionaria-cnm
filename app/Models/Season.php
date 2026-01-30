@@ -20,13 +20,19 @@ class Season extends Model
         'desired_activities',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'desired_activities' => 'array',
+    ];
+
+    /**
+     * Garante que desired_activities (JSON) seja sempre gravado como string no banco.
+     * Evita "Array to string conversion" em alguns ambientes MySQL.
+     */
+    protected function setDesiredActivitiesAttribute($value): void
     {
-        return [
-            'start_date' => 'date',
-            'end_date' => 'date',
-            'desired_activities' => 'array',
-        ];
+        $this->attributes['desired_activities'] = \is_array($value) ? json_encode($value) : $value;
     }
 
     // Relacionamentos

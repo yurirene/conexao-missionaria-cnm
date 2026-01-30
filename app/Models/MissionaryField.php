@@ -24,14 +24,12 @@ class MissionaryField extends Model
         'is_active',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'location_data' => 'array',
-            'activity_types' => 'array',
-            'is_active' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'location_data' => 'array',
+        'activity_types' => 'array',
+        'is_active' => 'boolean',
+        'structure' => 'array',
+    ];
 
     /**
      * Garante que activity_types (JSON) seja sempre gravado como string no banco.
@@ -40,6 +38,15 @@ class MissionaryField extends Model
     protected function setActivityTypesAttribute($value): void
     {
         $this->attributes['activity_types'] = \is_array($value) ? json_encode($value) : $value;
+    }
+
+    /**
+     * Garante que structure (JSON) seja sempre gravado como string no banco.
+     * Evita "Array to string conversion" em alguns ambientes MySQL.
+     */
+    protected function setStructureAttribute($value): void
+    {
+        $this->attributes['structure'] = \is_array($value) ? json_encode($value) : $value;
     }
 
     // Relacionamentos

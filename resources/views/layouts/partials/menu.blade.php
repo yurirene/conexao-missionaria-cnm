@@ -51,4 +51,14 @@
             </a>
         </li>
     @endif
+
+    <li class="sidebar-item">
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="sidebar-link">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sair</span>
+            </a>
+        </form>
+    </li>
 </ul>
