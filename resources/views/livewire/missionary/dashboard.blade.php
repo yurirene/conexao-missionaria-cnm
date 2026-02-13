@@ -59,7 +59,7 @@
                             <div class="owl-carousel owl-theme">
                             @foreach($field->images as $image)
                                 <div class="item card-image">
-                                    <img src="{{ Storage::url($image->image_path) }}" alt="{{ $field->name }}" style="width: 100%; height: 200px; object-fit: cover;">
+                                     <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $field->name }}" style="width: 100%; height: 200px; object-fit: cover;">
                                 </div>
                             @endforeach
                             </div>

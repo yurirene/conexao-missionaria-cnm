@@ -13,14 +13,8 @@
                 <span>Meu Campo</span>
             </a>
         </li>
-        <li class="sidebar-item {{ request()->routeIs('missionary.field.*') ? 'active' : '' }}">
-            <a href="{{ route('missionary.field.create') }}" class="sidebar-link">
-                <i class="bi bi-gear-fill"></i>
-                <span>Configurações</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+        <li class="sidebar-item {{ request()->routeIs('connections.teams.search') ? 'active' : '' }}">
+            <a href="{{ route('connections.teams.search') }}" class="sidebar-link">
                 <i class="bi bi-people-fill"></i>
                 <span>Conexões</span>
             </a>

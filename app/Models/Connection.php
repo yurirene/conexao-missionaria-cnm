@@ -20,12 +20,9 @@ class Connection extends Model
         'initiator_type',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'status' => ConnectionStatus::class,
-        ];
-    }
+    protected $casts = [
+        'status' => ConnectionStatus::class,
+    ];
 
     // Relacionamentos
     public function missionaryField(): BelongsTo

@@ -8,11 +8,19 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SearchFieldsUseCase
 {
-    public function execute(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function execute(array $filters = [], ?string $excludeTeamId = null, int $perPage = 15): LengthAwarePaginator
     {
         $query = MissionaryField::query()
             ->where('is_active', true)
             ->with('user', 'seasons', 'images');
+
+        // Excluir campos que já têm conexão aceita com esta equipe
+        if ($excludeTeamId) {
+            $query->whereDoesntHave('connections', function (Builder $q) use ($excludeTeamId) {
+                $q->where('volunteer_team_id', $excludeTeamId)
+                  ->where('status', \App\Enums\ConnectionStatus::ACCEPTED);
+            });
+        }
 
         // Filtro por especialidades (atividades)
         if (!empty($filters['activities'])) {
