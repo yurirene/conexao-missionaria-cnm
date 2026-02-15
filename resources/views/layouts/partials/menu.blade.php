@@ -32,8 +32,8 @@
                 <span>Buscar Campos</span>
             </a>
         </li>
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+        <li class="sidebar-item {{ request()->routeIs('connections.index') ? 'active' : '' }}">
+            <a href="{{ route('connections.index') }}" class="sidebar-link">
                 <i class="bi bi-link-45deg"></i>
                 <span>Conexões</span>
             </a>

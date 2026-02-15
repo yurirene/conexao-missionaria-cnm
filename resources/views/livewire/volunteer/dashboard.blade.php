@@ -33,6 +33,11 @@
                                 <i class="bi bi-pencil me-1"></i> Editar Informações
                             </a>
                         </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('connections.index') }}">
+                                <i class="bi bi-link-45deg me-1"></i> Conexões
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

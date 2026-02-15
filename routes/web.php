@@ -7,6 +7,7 @@ use App\Livewire\Missionary\FieldForm;
 use App\Livewire\Missionary\SeasonsIndex;
 use App\Livewire\Connections\SearchTeams;
 use App\Livewire\Connections\SearchFields;
+use App\Livewire\Connections\ConnectionsIndex;
 use App\Livewire\Volunteer\Dashboard as VolunteerDashboard;
 use App\Livewire\Volunteer\TeamForm;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('connections')->name('connections.')->group(function () {
+        Route::get('/', ConnectionsIndex::class)
+            ->name('index');
         Route::get('/teams', SearchTeams::class)
             ->middleware('profile:missionary')
             ->name('teams.search');
