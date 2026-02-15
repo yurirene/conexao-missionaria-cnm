@@ -12,7 +12,7 @@ class SearchFieldsUseCase
     {
         $query = MissionaryField::query()
             ->where('is_active', true)
-            ->with('user', 'seasons', 'images');
+            ->with('user', 'seasons', 'images', 'connections');
 
         // Excluir campos que já têm conexão aceita com esta equipe
         if ($excludeTeamId) {

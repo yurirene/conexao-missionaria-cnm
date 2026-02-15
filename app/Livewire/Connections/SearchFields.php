@@ -33,7 +33,7 @@ class SearchFields extends Component
     public function loadTeam()
     {
         $this->team = auth()->user()->fresh()->volunteerTeam;
-        
+
         if (!$this->team) {
             return redirect()->route('volunteer.team.create');
         }

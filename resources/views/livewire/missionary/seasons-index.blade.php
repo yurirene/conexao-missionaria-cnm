@@ -26,7 +26,7 @@
         </div>
     @endif
 
-    <div class="card">
+    <div class="card card-rounded-tw">
         <div class="card-body">
             @if(count($seasons) > 0)
                 <div class="table-responsive">

@@ -46,7 +46,7 @@
         @endif
 
         <div class="row">
-            <div class="card mb-4 col-md-5" style="height: 600px; overflow: hidden;">
+            <div class="card mb-4 col-md-5 card-rounded-tw" style="height: 600px; overflow: hidden;">
                 <div class="card-header">
                     <h5 class="card-title">
                         <i class="bi bi-geo-alt"></i>
@@ -166,8 +166,7 @@
                 </div>
             </div>
 
-
-            <div class="card mb-4 col-md-5 ms-md-5" style="height: 600px; overflow: hidden;">
+            <div class="card mb-4 col-md-5 ms-md-5 card-rounded-tw" style="height: 600px; overflow: hidden;">
                 <div class="card-header">
                     <h5 class="card-title">
                         <i class="bi bi-calendar"></i>
@@ -231,7 +230,6 @@
 </div>
 @push('js')
     <script>
-        console.log('owl.carousel.min.js');
         $(document).ready(function() {
             $('.owl-carousel').owlCarousel({
                 items:4,

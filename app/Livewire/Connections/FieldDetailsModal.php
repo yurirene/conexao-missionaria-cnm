@@ -23,15 +23,16 @@ class FieldDetailsModal extends Component
     {
         $this->fieldId = $fieldId;
         $this->field = MissionaryField::with('user', 'seasons', 'images')->find($fieldId);
-        
+
         if ($this->field) {
             $this->hasConnection = $this->field->connections()
                 ->where('volunteer_team_id', $teamId)
                 ->whereIn('status', [ConnectionStatus::SENT, ConnectionStatus::ACCEPTED])
                 ->exists();
         }
-        
+
         $this->show = true;
+        $this->dispatch('fieldDetailsModalShown');
     }
 
     public function close(): void

@@ -15,25 +15,19 @@
         </li>
         <li class="sidebar-item {{ request()->routeIs('connections.teams.search') ? 'active' : '' }}">
             <a href="{{ route('connections.teams.search') }}" class="sidebar-link">
-                <i class="bi bi-people-fill"></i>
+                <i class="bi bi-link-45deg"></i>
                 <span>Conexões</span>
             </a>
         </li>
     @elseif(auth()->user()->isVolunteer())
         <li class="sidebar-item {{ request()->routeIs('volunteer.dashboard') ? 'active' : '' }}">
             <a href="{{ route('volunteer.dashboard') }}" class="sidebar-link">
-                <i class="bi bi-house-door-fill"></i>
+                <i class="bi bi-people-fill"></i>
                 <span>Minha Equipe</span>
             </a>
         </li>
-        <li class="sidebar-item {{ request()->routeIs('volunteer.team.*') ? 'active' : '' }}">
-            <a href="{{ route('volunteer.team.create') }}" class="sidebar-link">
-                <i class="bi bi-gear-fill"></i>
-                <span>Configurações</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+        <li class="sidebar-item {{ request()->routeIs('connections.fields.search') ? 'active' : '' }}">
+            <a href="{{ route('connections.fields.search') }}" class="sidebar-link">
                 <i class="bi bi-search"></i>
                 <span>Buscar Campos</span>
             </a>

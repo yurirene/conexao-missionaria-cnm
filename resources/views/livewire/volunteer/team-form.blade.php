@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-rounded-tw">
     <div class="card-header">
         <h3>{{ $team ? 'Editar' : 'Cadastrar' }} Informações da Equipe</h3>
     </div>

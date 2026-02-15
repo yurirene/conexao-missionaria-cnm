@@ -55,7 +55,7 @@
 
         <div class="mb-3">
             <label class="form-label">Estrutura do Local</label>
-            <div class="card">
+            <div class="card card-rounded-tw">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">

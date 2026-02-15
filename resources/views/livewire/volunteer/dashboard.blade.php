@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mb-4">
+        <div class="card mb-4 card-rounded-tw">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card card-rounded-tw">
             <div class="card-body">
                 <h5 class="card-title">Membros da Equipe</h5>
                 <p class="text-muted">Gerencie os membros da sua equipe aqui.</p>

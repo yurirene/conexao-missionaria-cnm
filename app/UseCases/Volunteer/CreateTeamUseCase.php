@@ -11,7 +11,7 @@ class CreateTeamUseCase
     public function execute(User $user, array $data): VolunteerTeam
     {
         return DB::transaction(function () use ($user, $data) {
-            // Preparar dados, convertendo array para JSON
+            // Preparar dados - deixar o mutator do modelo fazer a conversão para JSON
             $attributes = [
                 'user_id' => $user->id,
                 'church_name' => $data['church_name'],
@@ -20,15 +20,12 @@ class CreateTeamUseCase
                 'available_start' => $data['available_start'] ?? null,
                 'available_end' => $data['available_end'] ?? null,
                 'is_available' => $data['is_available'] ?? true,
+                'activities' => $data['activities'] ?? [], // Array - o mutator converterá para JSON
             ];
-            
-            // Converter activities array para JSON string antes de criar
-            $activities = $data['activities'] ?? [];
-            $attributes['activities'] = !empty($activities) ? json_encode($activities) : null;
-            
-            // Usar create com os atributos já convertidos
+
+            // Usar create - o mutator setActivitiesAttribute fará a conversão para JSON
             $team = VolunteerTeam::create($attributes);
-            
+
             return $team->fresh();
         });
     }
