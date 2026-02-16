@@ -16,22 +16,7 @@ class Login extends Component
 
     public function mount()
     {
-        // Redireciona se o usuário já estiver logado
         if (Auth::check()) {
-            $user = Auth::user();
-            if ($user->isAdmin()) {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->isMissionary()) {
-                if (!$user->missionaryField) {
-                    return redirect()->route('missionary.field.create');
-                }
-                return redirect()->route('missionary.dashboard');
-            } elseif ($user->isVolunteer()) {
-                if (!$user->volunteerTeam) {
-                    return redirect()->route('volunteer.team.create');
-                }
-                return redirect()->route('volunteer.dashboard');
-            }
             return redirect()->route('dashboard');
         }
     }
@@ -51,22 +36,6 @@ class Login extends Component
 
         $request = request();
         $request->session()->regenerate();
-
-        // Redirecionar para dashboard específico do perfil
-        $user = Auth::user();
-        if ($user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->isMissionary()) {
-            if (!$user->missionaryField) {
-                return redirect()->route('missionary.field.create');
-            }
-            return redirect()->route('missionary.dashboard');
-        } elseif ($user->isVolunteer()) {
-            if (!$user->volunteerTeam) {
-                return redirect()->route('volunteer.team.create');
-            }
-            return redirect()->route('volunteer.dashboard');
-        }
 
         return redirect()->route('dashboard');
     }

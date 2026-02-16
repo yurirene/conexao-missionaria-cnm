@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SecureDocumentController;
 use App\Livewire\Missionary\Dashboard as MissionaryDashboard;
@@ -43,27 +44,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
-
-        if ($user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->isMissionary()) {
-            // Verificar se já tem campo cadastrado
-            if (!$user->missionaryField) {
-                return redirect()->route('missionary.field.create');
-            }
-            return redirect()->route('missionary.dashboard');
-        } elseif ($user->isVolunteer()) {
-            // Verificar se já tem equipe cadastrada
-            if (!$user->volunteerTeam) {
-                return redirect()->route('volunteer.team.create');
-            }
-            return redirect()->route('volunteer.dashboard');
-        }
-
-        return redirect()->route('home');
-    })->name('dashboard');
+    // Home comum a todos os perfis (totalizadores, sobre o projeto, links)
+    Route::get('/dashboard', HomeController::class)->name('dashboard');
 
     // Rotas Missionário
     Route::prefix('missionary')->name('missionary.')->group(function () {

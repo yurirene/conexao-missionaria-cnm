@@ -1,8 +1,8 @@
 <ul class="menu">
     <li class="sidebar-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
         <a href="{{ route('dashboard') }}" class="sidebar-link">
-            <i class="bi bi-grid-fill"></i>
-            <span>Dashboard</span>
+            <i class="bi bi-house-door-fill"></i>
+            <span>Início</span>
         </a>
     </li>
 
