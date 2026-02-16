@@ -74,7 +74,7 @@
                 <div class="row">
                     @foreach($fields as $field)
                         <div class="col-md-12 mb-3">
-                            <div class="card user-card p-3 card-rounded-tw" style="background-color: #f8f9fa; cursor: pointer; transition: all 0.3s;"
+                            <div class="card user-card p-3 shadow-sm" style="cursor: pointer; transition: all 0.3s;"
                                  wire:click="openFieldDetailsModal('{{ $field->id }}', '{{ $team->id }}')"
                                  onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';"
                                  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)';">
