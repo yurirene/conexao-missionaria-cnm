@@ -33,11 +33,6 @@
                                 <i class="bi bi-calendar me-1"></i> Gerenciar Temporadas
                             </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="{{ route('connections.index') }}">
-                                <i class="bi bi-link-45deg me-1"></i> Conexões
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </div>
