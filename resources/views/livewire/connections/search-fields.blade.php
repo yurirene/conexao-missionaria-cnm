@@ -96,10 +96,10 @@
                                                 @if($field->location_data)
                                                     <div class="small mt-1 text-muted">
                                                         <i class="bi bi-geo-alt"></i>
-                                                        @if($field->location_data['city'])
+                                                        @if(!empty($field->location_data['city']))
                                                             {{ $field->location_data['city'] }}
                                                         @endif
-                                                        @if($field->location_data['state'])
+                                                        @if(!empty($field->location_data['state']))
                                                             - {{ $field->location_data['state'] }}
                                                         @endif
                                                     </div>

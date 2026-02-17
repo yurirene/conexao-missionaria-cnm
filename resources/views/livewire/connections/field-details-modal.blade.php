@@ -46,16 +46,16 @@
                                     </p>
                                     <p class="text-muted">
                                         <i class="bi bi-geo-alt"></i>
-                                        @if($field->location_data['address'])
+                                        @if(!empty($field->location_data['address']))
                                             {{ $field->location_data['address'] }},
                                         @endif
-                                        @if($field->location_data['city'])
+                                        @if(!empty($field->location_data['city']))
                                             {{ $field->location_data['city'] }}
                                         @endif
-                                        @if($field->location_data['state'])
+                                        @if(!empty($field->location_data['state']))
                                             - {{ $field->location_data['state'] }}
                                         @endif
-                                        @if($field->location_data['zip'])
+                                        @if(!empty($field->location_data['zip']))
                                             ({{ $field->location_data['zip'] }})
                                         @endif
                                     </p>
