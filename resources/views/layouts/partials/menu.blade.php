@@ -1,4 +1,7 @@
 <ul class="menu">
+    <div class="sidebar-title">
+        Olá, {{ auth()->user()->name }}
+    </div>
     <li class="sidebar-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
         <a href="{{ route('dashboard') }}" class="sidebar-link">
             <i class="bi bi-house-door-fill"></i>
@@ -9,12 +12,18 @@
     @if(auth()->user()->isMissionary())
         <li class="sidebar-item {{ request()->routeIs('missionary.*') ? 'active' : '' }}">
             <a href="{{ route('missionary.dashboard') }}" class="sidebar-link">
-                <i class="bi bi-house-door-fill"></i>
+                <i class="bi bi-flag-fill"></i>
                 <span>Meu Campo</span>
             </a>
         </li>
         <li class="sidebar-item {{ request()->routeIs('connections.teams.search') ? 'active' : '' }}">
             <a href="{{ route('connections.teams.search') }}" class="sidebar-link">
+                <i class="bi bi-search"></i>
+                <span>Buscar Equipes</span>
+            </a>
+        </li>
+        <li class="sidebar-item {{ request()->routeIs('connections.index') ? 'active' : '' }}">
+            <a href="{{ route('connections.index') }}" class="sidebar-link">
                 <i class="bi bi-link-45deg"></i>
                 <span>Conexões</span>
             </a>
