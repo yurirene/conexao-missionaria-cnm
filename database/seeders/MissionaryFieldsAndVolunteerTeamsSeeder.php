@@ -344,6 +344,9 @@ class MissionaryFieldsAndVolunteerTeamsSeeder extends Seeder
         ];
 
         foreach ($missionaryFields as $data) {
+            if (User::where('email', $data['user']['email'])->exists()) {
+                continue;
+            }
             $user = User::create($data['user']);
             MissionaryField::create(array_merge($data['field'], ['user_id' => $user->id]));
         }
